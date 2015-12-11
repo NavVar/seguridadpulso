@@ -25,5 +25,6 @@ module PulsoEconomico
     config.assets.initialize_on_precompile = false
     config.serve_static_files = true
     config.consider_all_requests_local = true # false
+    config.log_level = :debug
   end
 end
