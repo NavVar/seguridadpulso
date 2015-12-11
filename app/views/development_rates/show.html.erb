@@ -1,0 +1,85 @@
+
+<p>
+  <h1 style="border-bottom: 1px solid #2D6F96; color: #2D6F96; padding-bottom:7px;"><%= @development_rate.name %></h1>
+</p>
+
+<div class="row">
+  <div class='container-fluid' style="margin-left:6%; margin-right:6%;">
+		<p class='text-muted' align='justify'>
+      <strong>Descripción:</strong><br>
+      <%= @development_rate.description.gsub(/\n/, '<br>').html_safe  %>
+    </p>
+    <center>
+      <br>
+      <%if @development_rate.rate_registers.count ==0%>
+        <h4 class='text-muted' style='color:#2D6F96;'>No existen registros sobre el índice: <%=@development_rate.name%></h4>
+      <%else%>
+      <div class="container-fluid" style="margin-left:10%; margin-right:10%;">
+        <h4 class='text-muted' style='color:#2D6F96;'>Filtra los registros del índice por fecha:</h4>
+      <%if @flag%>
+      <div class="alert alert-danger" role="alert">
+        <div id="error_explanation">
+          <h4>¡Oops! Algo pasó mientras procesabamos la información:</h4>
+          <ul>
+            <%if @flag==1%>
+              La fecha inicial no puede ser mayor a la fecha final.
+            <%else%>
+              No se aceptan fechas en el futuro
+            <%end%>
+          </ul>
+        </div>
+      </div>
+      <%end%>
+      <%= form_for :custom do |f|%>
+          <div class="input-append">
+            <table class="table">
+              <col width='50%'>
+              <col width='50%'>
+            <tr>
+              <td align='center'><b>Fecha Inicio: <%= @initial_date.strftime('%d/%m/%Y')%></b></th>
+              <td align='center'><b>Fecha Final: <%= @final_date.strftime('%d/%m/%Y')%></b></th>
+            </tr>
+              <tr>
+                <div class='field'>
+                  <td align='center'><%= f.date_select :initial, :order=>[:day,:month,:year] , :start_year => DateTime.now.year-50 , :end_year => Date.current.year,:default => @initial_date%></td>
+                </div>
+                <div class='field'>
+                  <td align='center'><%= f.date_select :final, :order=>[:day,:month,:year] , :start_year => DateTime.now.year-50 , :end_year => Date.current.year, :default => @final_date  %></td>
+                </div>
+              </tr>
+            </table>
+            <!-- In order to have the "search" icon int the button, we need to use plain HTML instead
+                 of using a Rails form helper -->
+            <button class="btn btn-xs btn-primary" type="submit">Buscar</button><br>
+          </div>
+        <% end %>
+      </div>
+        <%if @years.size == 0%>
+          <h4 class='text-muted' style='color:#2D6F96;'>No existen registros sobre el índice <%=@development_rate.name%> para esas fechas</h4>
+        <%else%>
+          <br><%= high_chart("some_id", @chart) %>
+        <%end%>
+      <%end%>
+    </center>
+  </div>
+</div>
+<br><br>
+<%if user_signed_in?%>
+<%if current_user.has_role? :admin%>
+<center>
+  <div class='btn btn-group'>
+    <%= link_to 'Editar', edit_development_rate_path(@development_rate) , :class=>'btn btn-sm btn-primary'%>
+     <%= link_to 'Borrar', @development_rate, method: :delete, data: { confirm: 'Seguro?' } , :class=>'btn btn-sm btn-danger'%>
+    <%= link_to 'Atras', development_rates_path , :class=> 'btn btn-sm btn-default'%>
+  </div>
+</center>
+<%else%>
+<center>
+    <%= link_to 'Atras', development_rates_path , :class=> 'btn btn-sm btn-default'%>
+</center>
+<%end%>
+<%else%>
+<center>
+    <%= link_to 'Atras', development_rates_path , :class=> 'btn btn-sm btn-default'%>
+</center>
+<%end%>

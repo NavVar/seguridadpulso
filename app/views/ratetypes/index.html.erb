@@ -1,0 +1,43 @@
+
+
+<h1 style=" border-bottom: 1px solid #2D6F96; color: #2D6F96; padding-bottom:7px;">Tipos de elementos </h1>
+<div class="container-fluid" style="margin-left:15%; margin-right:15%;">
+<center>
+  <table class="table table-striped">
+  <thead style=" solid #2D6F96; color: #2D6F96; padding-bottom:7px;">
+    <tr>
+      <th>Nombre</th>
+       <th>Clase</th>
+      <th>Unidad de medida</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ratetypes.each do |ratetype| %>
+      <tr>
+        <td><%= ratetype.name %></td>
+        <td><%= ratetype.rateclass.name %></td>
+        <td><%= ratetype.unit %></td>
+        <td>
+            <div class='btn btn-group'>
+              <%= link_to 'Editar', edit_ratetype_path(ratetype) , class:'btn btn-xs btn-primary' %>
+
+              <%= link_to 'Borrar', ratetype, method: :delete, data: { confirm: '¿Está seguro que desea borrar este tipo de elemento?' } , class:'btn btn-xs btn-danger'%>
+            </div>
+          </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+  <div class="btn btn-group">
+    <%= link_to 'Crear', new_ratetype_path, class:'btn btn-sm btn-success' %>
+    <%= link_to 'Volver a Cotizacion',new_exchange_path, :class=>'btn btn-sm btn-default' %>
+
+  </div>
+</center>
+
+</div>

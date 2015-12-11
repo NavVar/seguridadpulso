@@ -1,0 +1,94 @@
+
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="1" class=""></li>
+          <li data-target="#myCarousel" data-slide-to="2" class=""></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+          <div class="item">
+            <img class="first-slide" src="/assets/newspaper.jpg" alt="First slide">
+            <div class="container">
+              <div class="carousel-caption">
+                <h1>¡Actualízate!</h1>
+                <p>Con nuestras publicaciones de artículos podrás conocer la situación económico-social de Bolivia. Y comentar al respecto.</p>
+                <p><a class="btn btn-md btn-primary" href="/articles" role="button">Leer más</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="item active left">
+            <img class="second-slide" src="/assets/money.jpg" alt="Second slide">
+            <div class="container">
+              <div class="carousel-caption">
+                <h1>Conoce el valor de cualquier moneda.</h1>
+                <p>Con nuestro sistema de cotizaciones podrás conocer el valor de cualquier moneda en Bs.</p>
+                <p><a class="btn btn-md btn-primary" href="/exchanges" role="button">Aprende más</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="item next left">
+            <img class="third-slide" src="/assets/trade.jpg" alt="Third slide">
+            <div class="container">
+              <div class="carousel-caption">
+                <h1>Bolivia y el mundo</h1>
+                <p>Conoce la situación del país y del mundo según índices de desarrollo. </p>
+                <p><a class="btn btn-md btn-primary" href="/development_rates" role="button">Ver más</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+
+<div class="container marketing" style='padding-top:20px;'>
+  <div class="row featurette" style="padding-right:50px; padding-left:20px;">
+      <div class="col-md-8">
+        <h1 style="border-bottom: 1px solid #2D6F96; color: #2D6F96; padding-bottom:7px;">Últimas publicaciones</h1>
+        <div class='container-fluid' style='padding-left:20px; padding-right:20px;'>
+          <% @articles.each do |article|%>
+              <p class="lead" align='justify'>
+              <h3 class="featurette-heading"><%=article.title%><br> <span class="text-muted"><small><i>por <%=article.author%></i></small></span></h3>
+              <medium><%=article.description%> <%= link_to "Ver más...", article %></medium></p>
+              <hr class="featurette-divider" style='color:#2D6F96;'>
+          <%end%>
+      </div>
+    </div>
+    <div class="col-md-4" style="background: #D0E2F0; border-radius: 1%;" >
+      <div class='container-fluid'>
+        <h1 align="center" style="border-bottom: 1px solid #2D6F96; color: #2D6F96;">Cotizaciones</h1>
+        <div class='container-fluid' style='padding-left:15%; padding-right:15%;'>
+          <center>Cotización al <%=Time.now.strftime('%D/%M/%y')%></center>
+          <div class="circle2" >
+            <div class="circle2__inner">
+              <div class="circle2__wrapper" >
+                <div class="circle2__content">
+                  <h3>1 $</h3>
+                  <i>son</i>
+                  <h2 style='color:#fff;'><b><%=@usd%>Bs.</b></h2>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="circle">
+            <div class="circle__inner">
+              <div class="circle__wrapper">
+                <div class="circle__content">
+                  <h3>1 €</h3>
+                  <i>son</i>
+                  <h2 style='color:#fff;'><b><%=@eur.round(2)%>Bs.</b></h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <center><a href='/exchanges'>Ver más cotizaciones...</a></center><br>
+    </div>
+  </div>
+</div>
+</div>

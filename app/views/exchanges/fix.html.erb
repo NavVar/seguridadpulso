@@ -1,0 +1,83 @@
+<h1 style="border-bottom: 1px solid #2D6F96; color: #2D6F96; padding-bottom:7px;">Crear Cotización de Moneda</h1>
+
+
+<div class="row">
+    <div class="container-fluid">
+      <div class="col-xs-6">
+        <p class='text-muted'>
+          Rellene los siguientes campos con la información pertinente:<br>
+        </p>
+      </div>
+      <div class="col-xs-6">
+        <p class='text-muted' style="color:#D46A6A;" align="right">
+          <i><small>Los campos marcados con (*) son obligatorios.</small>
+          <br><br></i>
+        </p>
+      </div>
+    </div>
+    </div>
+<%= form_for(@coinrate) do |f| %>
+  <% if @coinrate.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@coinrate.errors.count, "error") %> prohibited this coinrate from being saved:</h2>
+      <ul>
+      <% @coinrate.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+ <div class="container-fluid" style="margin-left:6%; margin-right:6%;">
+  <div class='row'>
+         <p class='text-muted'>
+            <%= f.label :a_la_fecha %>* <br>
+            <%= f.date_select :todate,:default => Time.now %>
+         </p>
+  </div>
+
+ <br>
+ <div class='col-md-4'>
+          <div class="field">
+            <p class='text-muted'>
+    <%= f.label :Precio_de_venta %>*<br>
+    <%= f. number_field :sale, :class => 'text_field', :step => 'any' %>Bs.
+
+          </p>
+          </div>
+        </div>
+
+  <div class='col-md-4'>
+          <div class="field">
+            <p class='text-muted'>
+
+    <%= f.label :Precio_de_compra %>*<br>
+    <%= f. number_field :buy, :class => 'text_field', :step => 'any' %>Bs.
+
+          </p>
+          </div>
+        </div>
+ <div class='col-md-4'>
+          <div class="field">
+            <p class='text-muted'>
+
+
+<% @rateclasses.each do |rateclass| %>
+ <% if rateclass.name == "moneda" %>
+ <% @id_moneda= rateclass.id %>
+ <% end %>
+<% end %>
+    <%= f.label :moneda %>*<br>
+     <%= f.collection_select(:ratetype_id, Ratetype.where("rateclass_id =" + @id_moneda.to_s), :id, :name, {:required => "required"}) %>
+
+
+            </p>
+          </div>
+        </div>
+  <br><br><br><br>
+  </div>
+ <center>
+  <div class="actions">
+     <%= f.submit 'Guardar', :class => 'btn btn-sm btn-success'%>
+  </div>
+</center>
+<% end %>

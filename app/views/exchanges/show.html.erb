@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>To date:</strong>
+  <%= @exchange.to_date %>
+</p>
+
+<p>
+  <strong>Buy value:</strong>
+  <%= @exchange.buy_value %>
+</p>
+
+<p>
+  <strong>Ratetype:</strong>
+  <%= @exchange.ratetype.name %>
+</p>
+
+<p>
+  <strong>Rateclass:</strong>
+  <%= @exchange.rateclass.name %>
+</p>
+
+<%= link_to 'Edit', edit_exchange_path(@exchange) %> |
+<%= link_to 'Back', exchanges_path %>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  to_date: 2015-10-14
+  buy_value: 1
+  ratetype_id: 
+  rateclass_id: 
+
+two:
+  to_date: 2015-10-14
+  buy_value: 1
+  ratetype_id: 
+  rateclass_id: 

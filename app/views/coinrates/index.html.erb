@@ -1,0 +1,45 @@
+
+<h1 style=" border-bottom: 1px solid #2D6F96; color: #2D6F96; padding-bottom:7px;">Cotizaciones de monedas</h1>
+<div class="container-fluid" style="margin-left:1%; margin-right:1%;">
+  </div>
+ <div class="container-fluid" style="margin-left:15%; margin-right:15%;">
+    <center>
+    <table class="table table-striped">
+      <col width="20%">
+      <col width="10%">
+      <col width="10%">
+       <col width="10%">
+       <col width="10%">
+       <col width="40%">
+      <thead>
+        <tr>
+          <th>A la fecha</th>
+          <th>Moneda</th>
+          <th>Compra</th>
+          <th>Venta</th>
+          <th >Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @coinrates.each do |coinrate| %>
+          <tr>
+            <td><%= coinrate.todate %></td>
+            <td><%= coinrate.ratetype.name %></td>
+            <td> <%= coinrate.buy %> Bs.</td>
+            <td><%= coinrate.sale %> Bs.</td>
+            <td>
+              <div class='btn btn-group'>
+                <%= link_to 'Editar', edit_coinrate_path(coinrate), class:'btn btn-xs btn-primary' %>
+                <%= link_to 'Eliminar', coinrate, method: :delete, data: { confirm: '¿Está seguro de eliminar?' } , class:'btn btn-xs btn-danger'%>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <br>
+  <div class="btn btn-group">
+    <%= link_to 'Crear cotización', new_exchange_path, class:'btn btn-sm btn-primary' %>
+    <%= link_to 'Volver', :back, :class=>'btn btn-sm btn-default' %>
+  </div>
+   </div>

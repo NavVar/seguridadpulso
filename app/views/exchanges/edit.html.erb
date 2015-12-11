@@ -1,0 +1,84 @@
+
+<h1 style="border-bottom: 1px solid #2D6F96; color: #2D6F96; padding-bottom:7px;">Editar Cotización de Elemento</h1>
+<%= form_for(@exchange) do |f| %>
+  <% if @exchange.errors.any? %>
+  <div class="alert alert-danger" role="alert">
+    <div id="error_explanation">
+      <h4>¡Oops! Algo pasó mientras guardabamos la información:</h4>
+
+      <ul>
+      <% @exchange.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+  <% end %>
+  <div class="row">
+    <div class="container-fluid">
+      <div class="col-xs-6">
+        <p class='text-muted'>
+          Rellene los siguientes campos con la información pertinente:<br>
+        </p>
+      </div>
+      <div class="col-xs-6">
+        <p class='text-muted' style="color:#D46A6A;" align="right">
+          <i><small>Los campos marcados con (*) son obligatorios.</small>
+          <br><br></i>
+        </p>
+      </div>
+    </div>
+    </div>
+
+    <div class='row'>
+      <div class="container-fluid" style="margin-left:6%; margin-right:6%;">
+        <div class='row'>
+         <p class='text-muted'>
+
+
+            <%= f.label :a_la_fecha %>* <br>
+            <%= f.date_select :to_date,:default => Time.now %>
+
+
+         </p>
+        </div>
+       <br><br>
+        <div class='col-md-4'>
+          <div class="field">
+            <p class='text-muted'>
+
+    <%= f.label :Precio_de_venta %>*<br>
+    <%= f. number_field :saleprice, :class => 'text_field', :step => 'any' %>
+
+          </p>
+          </div>
+        </div>
+
+
+        <div class='col-md-4'>
+          <div class="field">
+            <p class='text-muted'>
+
+    <%= f.label :moneda %>*<br>
+    <%= f.select :coin, ['Bs.', 'USD']%>
+          </p>
+          </div>
+        </div>
+        <div class='col-md-4'>
+          <div class="field">
+            <p class='text-muted'>
+    <%= f.label :tipo_de_elemento %>*<br>
+     <%= f.collection_select(:ratetype_id, Ratetype.all, :id, :name, {:required => "required"}) %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+        <center>
+  <div class="actions">
+    <%= f.submit 'Guardar', :class => 'btn btn-sm btn-success'%>     
+  </div>
+</center>
+<% end %>

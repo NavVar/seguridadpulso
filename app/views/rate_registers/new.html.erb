@@ -1,0 +1,80 @@
+<h1 style="border-bottom: 1px solid #2D6F96; color: #2D6F96; padding-bottom:7px;">Actualizar Índice</h1>
+<p style="text-align: center;"><img src='/assets/develop_rate.jpg' width='100%'/> </p>
+<%= form_for(@rate_register) do |f| %>
+  <% if @rate_register.errors.any? %>
+  <div class="alert alert-danger" role="alert">
+    <div id="error_explanation">
+      <h4>¡Oops! Algo pasó mientras guardabamos la información:</h4>
+
+      <ul>
+      <% @rate_register.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+  <% end %>
+  <div class="row">
+    <div class="container-fluid">
+      <div class="col-xs-6">
+        <p class='text-muted'>
+          Rellene los siguientes campos con la información pertinente:<br>
+        </p>
+      </div>
+      <div class="col-xs-6">
+        <p class='text-muted' style="color:#D46A6A;" align="right">
+          <i><small>Los campos marcados con (*) son obligatorios.<br>
+          </small>
+          <br><br></i>
+        </p>
+      </div>
+    </div>
+    </div>
+
+    <div class='row'>
+      <div class="container-fluid" style="margin-left:6%; margin-right:6%;">
+
+        <div class='col-md-3'>
+          <div class="field">
+            <p class='text-muted'>
+            <%= f.label :rate_value %>* <br>
+            <%= f.number_field :rate_value, :step => 0.001 %>
+          </p>
+          </div>
+        </div>
+        <div class='col-md-3'>
+          <div class="field">
+            <p class='text-muted'>
+            <%= f.label :país %><br>
+            <%= f.collection_select(:country_id, Country.all, :id, :name) %>
+          </p>
+          </div>
+        </div>
+        <div class='col-md-3'>
+          <div class="field">
+            <p class='text-muted'>
+            <%= f.label 'Índice' %><br>
+            <%= f.collection_select(:development_rate_id, DevelopmentRate.all, :id, :name) %>
+          </p>
+          </div>
+        </div>
+        <div class='col-md-3'>
+          <div class="field">
+            <p class='text-muted'>
+            <%= f.label 'Fecha de registro' %><br>
+            <%= f.date_select :date_registered, :value => Time.now,:start_year =>Time.now.year - 40, :end_year=>Time.now.year,:order => [:day,:month,:year] %>
+          </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <center>
+        <div class='row'>
+          <div class="actions">
+            <%= f.submit 'Crear', class:'btn btn-sm btn-success' %>
+            <%= link_to 'Atrás', :back, class:'btn btn-sm btn-default' %>
+          </div>
+        </center>
+        </div>
+<% end %>

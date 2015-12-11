@@ -1,0 +1,2 @@
+module RatetypesHelper
+end

@@ -1,0 +1,53 @@
+
+<div class="row">
+  <div class="col-xs-6">
+    <center>
+      <img src="/assets/economic.jpg" width="70%"><br><br>
+    </center>
+    <div style="padding-left:15%; padding-right:15%;">
+      <p class='text-muted' align="center" style="border-top: 1px solid #6B6D75; padding-bottom:5px; padding-top:10px;">
+        Si las personas están informadas,<br> harán las cosas correctas.<br> Es cuando no están informadas que <br> se vuelven rehénes del prejuicio.<br>
+      </p>
+      <p class='text-muted' align="right" style="border-top: 1px solid #6B6D75; padding-bottom:1px;">
+        <i>Charlayne Hunter-Gault</i>
+      </p>
+    </div>
+  </div>
+  <div class="col-xs-6">
+    <br>
+    <h1 style="color: #2D6F96; padding-bottom:7px;">Iniciar sesión</h1>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="field">
+        <p class="text-muted"><%= f.label :email %><br>
+        <%= f.email_field :email, autofocus: true, :size => '30' %>
+        </p>
+      </div>
+      <div class="field">
+        <p class="text-muted"><%= f.label :password %><br>
+        <%= f.password_field :password, autocomplete: "off", :size => '30' %>
+        </p>
+      </div>
+
+      <% if devise_mapping.rememberable? -%>
+        <div class="field">
+          <p class="text-muted"><%= f.check_box :remember_me %>
+          <small><%= f.label :recuérdame %></small></p>
+        </div>
+      <% end -%>
+
+      <div class="actions">
+        <%= f.submit "Ingresar", :class => 'btn btn-sm btn-default' %>
+      </div>
+    <% end %>
+
+    <small>
+    <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+      <%= link_to "¡Regístrate ya!", new_registration_path(resource_name) %><br />
+    <% end -%>
+
+    <!--%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+      <%= link_to "¿Olvidaste tu contraseña?", new_password_path(resource_name) %><br />
+    <% end -%-->
+    </small>
+  </div>
+</div>

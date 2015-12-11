@@ -1,0 +1,144 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+en:
+  activerecord:
+    attributes:
+      company:
+        nit: "NIT"
+        name: "Razón social"
+        background: "Descripción"
+        location: "Ubicación"
+      article:
+        title: "Titulo"
+        author: "Autor"
+        content: "Contenido"
+      country:
+        code: "Código"
+        name: "Nombre"
+      rateclass:
+        name: "Nombre"
+      coinrate:
+        buy: "Precio de compra"
+        sale: "Precio de venta"
+
+      ratetype:
+        name: "Nombre"
+        unit: "Unidad"
+
+      user:
+        email: "Correo electrónico"
+        name: "Nombre"
+        lastname: "Apellido"
+        password: "Contraseña"
+        address: "Dirección"
+        company_id: "Compañía"
+        password_confirmation: "Confirmación de contraseña"
+        current_password: "Contraseña actual"
+      development_rate:
+        name: "Nombre"
+        description: "Descripción"
+      exchange:
+        saleprice: "Precio de venta"
+      rate_register:
+        rate_value: "Valor"
+    errors:
+      models:
+
+        company:
+          attributes:
+            nit:
+              blank: "es requerido."
+            name:
+              blank: "es requerido."
+            background:
+              blank: "es requerido."
+            location:
+              blank: "es requerido."
+        article:
+              attributes:
+                title:
+                  blank: "es requerido."
+                  taken: "ya fue utilizado."
+                author:
+                  blank: "es requerido."
+                  taken: "ya fue utilizado."
+                content:
+                  blank: "es requerido."
+                  taken: "ya fue utilizado."
+        country:
+              attributes:
+                code:
+                  blank: "es requerido."
+                  taken: "ya fue utilizado."
+                  wrong_length: "no tiene longitud establecida por ISO 3166-1 ALPHA-3"
+                name:
+                  blank: "es requerido."
+                  taken: "ya fue utilizado."
+
+        user:
+          attributes:
+            email:
+              blank: "es requerido."
+              taken: "ya fue utilizado."
+            password:
+              blank: "es requerida."
+              confirmation: "no coincide con la confirmación."
+              too_short: "es muy corta (8 caracteres como mínimo)."
+            current_password:
+              blank: "es requerida."
+              invalid: "es inválida."
+            password_confirmation:
+              confirmation: "no coincide con la contraseña."
+        development_rate:
+          attributes:
+            name:
+              blank: "es requerido."
+              taken: "ya fue utilizado."
+            description:
+              blank: "es requerido."
+        rateclass:
+              attributes:
+                name:
+                  blank: "es requerido."
+                  taken: "ya fue utilizado."
+        ratetype:
+              attributes:
+                name:
+                  blank: "es requerido."
+                  taken: "ya fue utilizado."
+                unit:
+                  blank: "es requerido."
+                  taken: "ya fue utilizado."
+        coinrate:
+              attributes:
+                buy:
+                  blank: "es requerido."
+                sale:
+                  blank: "es requerido."
+        exchange:
+              attributes:
+                 saleprice:
+                   blank: "es requerido."
+
+        rate_register:
+              attributes:
+                rate_value:
+                  blank: "es requerido."

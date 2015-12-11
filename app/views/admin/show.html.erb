@@ -1,0 +1,99 @@
+<center>
+  <img src="/assets/icon-user.png" width="125px">
+</center>
+<br>
+<div class="row">
+  <div class="col-xs-6" align="right">
+    <p class="text-muted">
+      <b>
+        Nombre:
+      </b>
+    </p>
+  </div>
+  <div class="col-xs-6">
+    <p class="text-muted">
+      <%= current_user.name%>
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6" align="right">
+    <p class="text-muted">
+      <b>
+        Apellido:
+      </b>
+    </p>
+  </div>
+  <div class="col-xs-6">
+    <p class="text-muted">
+      <%= current_user.lastname%>
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6" align="right">
+    <p class="text-muted">
+      <b>
+        Correo electrónico:
+      </b>
+    </p>
+  </div>
+  <div class="col-xs-6">
+    <p class="text-muted">
+      <%= current_user.email%>
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6" align="right">
+    <p class="text-muted">
+      <b>
+        Contraseña:
+      </b>
+    </p>
+  </div>
+  <div class="col-xs-6">
+    <p class="text-muted">
+        <i>*************</i>
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6" align="right">
+    <p class="text-muted">
+      <b>
+        Dirección:
+      </b>
+    </p>
+  </div>
+  <div class="col-xs-6">
+    <p class="text-muted">
+      <%=current_user.address.gsub(/\n/, '<br>').html_safe%>
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6" align="right">
+    <p class="text-muted">
+      <b>
+        Compañía:
+      </b>
+    </p>
+  </div>
+  <div class="col-xs-6">
+    <p class="text-muted">
+      <i><%= current_user.company.name%></i>
+    </p>
+  </div>
+</div>
+<br>
+<center>
+  <%= link_to "Editar", '/users/edit' , :class=>'btn btn-sm btn-primary' %>
+  <%= link_to "Atrás", :back , :class=>'btn btn-sm btn-default'%>
+</center>
+<br>
+<div class="container-fluid" style="margin-left:30%; margin-right:30%;">
+  <h4 style="border-bottom: 1px solid #2D6F96; color: #2D6F96; padding-bottom:7px;">Desactivar cuenta de usuario</h4>
+  <p>¿Insatisfecho con nuestro servicio? <%= button_to "Cancelar mi cuenta", registration_path(current_user), data: { confirm: "Are you sure?" }, method: :delete ,:class=>'btn btn-sm btn-danger'%></p>
+</div>
+<br><br>

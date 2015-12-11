@@ -1,0 +1,107 @@
+<center>
+  <img src="/assets/icon-user.png" width="125px">
+</center>
+<br>
+<div class="row">
+  <div class="col-xs-6" align="right">
+    <p class="text-muted">
+      <b>
+        Nombre:
+      </b>
+    </p>
+  </div>
+  <div class="col-xs-6">
+    <p class="text-muted">
+      <%= @user.name%>
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6" align="right">
+    <p class="text-muted">
+      <b>
+        Apellido:
+      </b>
+    </p>
+  </div>
+  <div class="col-xs-6">
+    <p class="text-muted">
+      <%= @user.lastname%>
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6" align="right">
+    <p class="text-muted">
+      <b>
+        Correo electrónico:
+      </b>
+    </p>
+  </div>
+  <div class="col-xs-6">
+    <p class="text-muted">
+      <%= @user.email%>
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6" align="right">
+    <p class="text-muted">
+      <b>
+        Contraseña:
+      </b>
+    </p>
+  </div>
+  <div class="col-xs-6">
+    <p class="text-muted">
+        <i>*************</i>
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6" align="right">
+    <p class="text-muted">
+      <b>
+        Dirección:
+      </b>
+    </p>
+  </div>
+  <div class="col-xs-6">
+    <p class="text-muted">
+      <%=@user.address.gsub(/\n/, '<br>').html_safe%>
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6" align="right">
+    <p class="text-muted">
+      <b>
+        Compañía:
+      </b>
+    </p>
+  </div>
+  <div class="col-xs-6">
+    <p class="text-muted">
+      <i><%= @user.company.name%></i>
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6" align="right">
+    <p class="text-muted" >
+      <b>
+        Última conexión:
+      </b>
+    </p>
+  </div>
+  <div class="col-xs-6">
+    <p class='text-muted' style="color:#C00000;">
+      <%= @user.last_sign_in_at.strftime('%d/%m/%Y %H:%M')%>
+    </p>
+  </div>
+</div>
+<br>
+<center>
+  <%= link_to "Atrás", :back , :class=>'btn btn-sm btn-default'%>
+</center>
+<br><br>

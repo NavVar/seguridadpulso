@@ -1,0 +1,66 @@
+
+<p>
+  <h1 style="border-bottom: 1px solid #2D6F96; color: #2D6F96; padding-bottom:7px;"><%= @company.name %>
+
+</h1>
+</p>
+
+<div class="row">
+  <div class='container-fluid' style="margin-left:6%; margin-right:6%;">
+	<div class="col-md-8" >
+		<p class='text-muted' align='justify'>
+		  <strong>Descripcion:</strong><br>
+		  <small><%= @company.background.gsub(/\n/, '<br>').html_safe %></small>
+		</p>
+	</div>
+	<div class="col-md-4" style='#border-left: 1px solid #60666A;'>
+    <center>
+    <%if @company.image_file_name==nil%>
+    <img class='img-circle' src='/assets/no_image_available.png' style='border: 1px solid #60666A;' width='250px' align='center'>
+    <%else%>
+    <%= link_to image_tag(@company.image.url(), width:'250px', align:'center'), @company.image.url %>
+    <%end%>
+  </center>
+  <br>
+		<p class='text-muted' align='justify'>
+		  <strong>Ubicacion:</strong><br>
+		  <small><%=@company.location.gsub(/\n/, '<br>').html_safe %></small>
+		</p>
+		<p class='text-muted' align='justify'>
+		  <strong>Contacto:</strong><br>
+		  <small>
+      <% if @company.contact_reference.empty? %>
+        No se registró información de contacto.
+      <%else%>
+        <%= @company.contact_reference.gsub(/\n/, '<br>').html_safe %>
+      <%end%>
+      </small>
+		</p>
+    <p class='text-muted' align='justify'>
+      <strong>NIT:</strong><br>
+      <small><%= @company.nit %></small>
+    </p>
+
+	</div>
+</div>
+</div>
+<br><br>
+<%if user_signed_in?%>
+<%if current_user.has_role? :admin%>
+<center>
+  <div class='btn btn-group'>
+    <%= link_to 'Editar', edit_company_path(@company) , :class=>'btn btn-sm btn-primary'%>
+     <%= link_to 'Borrar', @company, method: :delete, data: { confirm: 'Seguro?' } , :class=>'btn btn-sm btn-danger'%>
+    <%= link_to 'Atras', companies_path , :class=> 'btn btn-sm btn-default'%>
+  </div>
+</center>
+<%else%>
+<center>
+    <%= link_to 'Atras', companies_path , :class=> 'btn btn-sm btn-default'%>
+</center>
+<%end%>
+<%else%>
+<center>
+    <%= link_to 'Atras', companies_path , :class=> 'btn btn-sm btn-default'%>
+</center>
+<%end%>

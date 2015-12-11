@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Sale:</strong>
+  <%= @coinrate.sale %>
+</p>
+
+<p>
+  <strong>Buy:</strong>
+  <%= @coinrate.buy %>
+</p>
+
+<p>
+  <strong>Todate:</strong>
+  <%= @coinrate.todate %>
+</p>
+
+<p>
+  <strong>Ratetype:</strong>
+  <%= @coinrate.ratetype %>
+</p>
+
+<%= link_to 'Edit', edit_coinrate_path(@coinrate) %> |
+<%= link_to 'Back', coinrates_path %>

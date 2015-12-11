@@ -1,0 +1,84 @@
+<ul class="nav nav-pills">
+
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      Clases <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" role="menu">
+      <li> <%= link_to 'Crear Clase', new_rateclass_path %></li>
+        <li><%= link_to 'Ver Clases', rateclasses_path %></li>
+    </ul>
+  </li>
+   <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      Tipos <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" role="menu">
+      <li> <%= link_to 'Crear Tipo', new_ratetype_path %></li>
+        <li><%= link_to 'Ver Tipos', ratetypes_path %></li>
+    </ul>
+  </li>
+</ul>
+<div class="col-xs-6">
+      <p class='text-muted' style="color:#D46A6A;" align="right">
+        <i><small>Los campos marcados con (*) son obligatorios.</small>
+        <br><br></i>
+      </p>
+    </div>
+    <br><br>
+    <br>
+
+<div class="container-fluid">
+<%= form_for(@ratetype) do |f| %>
+  <% if @ratetype.errors.any? %>
+  <div class="alert alert-danger" role="alert">
+
+    <div id="error_explanation">
+      <h4>¡Oops! Algo pasó mientras guardabamos la información:</h4>
+      <ul>
+      <% @ratetype.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+  <% end %>
+</div>
+<div class="container">
+<table width="1200">
+<tr><td>
+      <%= f.label :clase_de_elemento %>*:<br>
+     <h4><%= f.collection_select(:rateclass_id, Rateclass.all, :id, :name, {:required => "required"}) %></h4>
+  <br>
+    <div class="field">
+    <%= f.label :nombre %>*:<br>
+    <%= f.text_field :name %>
+  </div>
+ <br>
+  <div class="field">
+    <%= f.label :unidad_de_medida %>*:<br>
+      <p class='text-muted'>
+        Ejemplo: onza, onza troy, Bs.
+      </p>
+    </div>
+  <div class="field">
+     <%= f.select :unit, [['USD', 'USD'], ['EUR', 'EUR'], ['ONZA TROY', 'ONZA TROY'], ['m³', 'm³'],['kg​','kg​']] %>
+  </div>
+  <br>
+  </div>
+</td><td>
+ <img class='img-rounded' src="/assets/element.jpg" width='300px'>
+</td></tr>
+<tr><td>
+
+<div class="actions">
+    <%= f.submit 'Guardar', :class=>'btn btn-sm btn-success'%>
+    <%= link_to 'Atras', :back, :class=>'btn btn-sm btn-default' %>
+
+  </div>
+
+</td></tr>
+</table>
+
+<% end %>
+</div>

@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @ratetype.name %>
+</p>
+
+<p>
+  <strong>Unit:</strong>
+  <%= @ratetype.unit %>
+</p>
+
+<%= link_to 'Edit', edit_ratetype_path(@ratetype) %> |
+<%= link_to 'Back', ratetypes_path %>

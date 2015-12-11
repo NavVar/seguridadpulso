@@ -1,0 +1,91 @@
+
+<div class="container">
+<table class="table" style=" solid #2D6F96; color: #2D6F96; padding-bottom:7px;">
+  <tr>
+
+    <th class="tg-031e">
+      <button><%= link_to 'Ver las classes de elementos', rateclasses_path %></button>
+<h3 style=" solid #2D6F96; color: #2D6F96; padding-bottom:7px;">Crear Clase de elemento</h3>
+
+   <p id="notice"><%= notice %></p>
+
+      <%= form_for(@rateclass) do |f| %>
+  <% if @rateclass.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@rateclass.errors.count, "error") %> no se :</h2>
+
+      <ul>
+      <% @rateclass.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :nombre_de_la_clase  %><br>
+     <div class="col-xs-6">
+      <p class='text-muted'>
+        Ejemplo: metal, moneda, etc.<br>
+      </p>
+    </div>
+    <br><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit 'Guardar'%>
+
+  </div>
+<% end %>
+    </th>
+    <th class="tg-031e">
+       <button><%= link_to 'Ver los tipos de elementos', ratetypes_path %></button>
+      <h3 style=" solid #2D6F96; color: #2D6F96; padding-bottom:7px;">Crear Tipo de elemento</h3>
+      <p id="notice"><%= notice %></p>
+    <div class="col-xs-6">
+      <p class='text-muted'>
+        Ejemplo: Euro, Dolar, oro, plata.      </p>
+    </div>
+    <br><br>
+      <%= form_for(@ratetype) do |f| %>
+  <% if @ratetype.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ratetype.errors.count, "error") %> prohibited this ratetype from being saved:</h2>
+
+      <ul>
+      <% @ratetype.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :nombre %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :unidad_de_medida %><br>
+    <div class="col-xs-8">
+      <p class='text-muted'>
+        Ejemplo: onza, $/onza troy, Bs.
+      </p>
+    </div>
+    <br><br>
+    <%= f.text_field :unit %>
+  </div>
+  <div class="actions">
+    <%= f.submit 'Guardar'%>
+
+  </div>
+<% end %>
+    </th>
+  </tr>
+  <tr>
+    <td class="tg-yw4l" colspan="2">
+     <h3 style=" solid #2D6F96; color: #2D6F96; padding-bottom:7px;">AQUI SE PODRA CREAR UNA COTIZACION ESCOGIENDO UN TIPO Y UNA CLASE</h3>
+
+    </td>
+  </tr>
+</table>
+</div>

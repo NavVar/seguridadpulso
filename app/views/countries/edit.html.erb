@@ -1,0 +1,61 @@
+<h1 style="border-bottom: 1px solid #2D6F96; color: #2D6F96; padding-bottom:7px;">Editar País | <%=@country.name%></h1>
+<div class="container-fluid">
+  <p style="text-align: center;"><img src='/assets/countries.jpg' width='100%'/> </p>
+
+<%= form_for(@country) do |f| %>
+  <% if @country.errors.any? %>
+  <div class="alert alert-danger" role="alert">
+
+    <div id="error_explanation">
+      <h4>¡Oops! Algo pasó mientras guardabamos la información:</h4>
+      <ul>
+      <% @country.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+  <% end %>
+<div class="container-fluid">
+<div class="row">
+    <div class="col-xs-6">
+      <p class='text-muted'>
+        Rellene los siguientes campos con la información pertinente:<br>
+      </p>
+    </div>
+    <div class="col-xs-6">
+      <p class='text-muted' style="color:#D46A6A;" align="right">
+        <i><small>Los campos marcados con (*) son obligatorios.</small>
+        <br><br></i>
+      </p>
+    </div>
+  </div>
+  </div>
+<div class="container-fluid" style="margin-left:6%; margin-right:6%;">
+<div class="row">
+    <div class="col-xs-6">
+      <div class="field">
+        <%= f.label :code %> <small>(ISO 3166-1 ALPHA-3)</small><br>
+        <%= f.text_field :code, size:'50' %>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="field">
+        <%= f.label :name %><br>
+        <%= f.text_field :name, size:'50' %>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+  <div class="actions">
+    <center>
+      <div class='btn btn-group'>
+      <%= f.submit 'Guardar', :class=>'btn btn-sm btn-success'%>
+      <%= link_to 'Ver', @country, :class=>'btn btn-sm btn-primary' %>
+      <%= link_to 'Atras', countries_path, :class=>'btn btn-sm btn-default' %>
+      </div>
+    </center>
+  </div>
+<% end %>
+</div>

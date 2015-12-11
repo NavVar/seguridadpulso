@@ -1,0 +1,8 @@
+
+<%  if (user_signed_in?)%>
+  <% if current_user.has_role? :admin%>
+    <%= render 'form' %>
+  <%  end %>
+<%  else %>
+    <%= render template: 'home/denial' %>
+<%  end %>

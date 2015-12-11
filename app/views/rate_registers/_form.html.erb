@@ -1,0 +1,70 @@
+<%= form_for(@rate_register) do |f| %>
+  <% if @rate_register.errors.any? %>
+  <div class="alert alert-danger" role="alert">
+    <div id="error_explanation">
+      <h4>¡Oops! Algo pasó mientras guardabamos la información:</h4>
+
+      <ul>
+      <% @rate_register.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+  <% end %>
+  <div class="row">
+    <div class="container-fluid">
+      <div class="col-xs-6">
+        <p class='text-muted'>
+          Rellene los siguientes campos con la información pertinente:<br>
+        </p>
+      </div>
+      <div class="col-xs-6">
+        <p class='text-muted' style="color:#D46A6A;" align="right">
+          <i><small>Los campos marcados con (*) son obligatorios.</small>
+          <br><br></i>
+        </p>
+      </div>
+    </div>
+    </div>
+
+    <div class='row'>
+      <div class="container-fluid" style="margin-left:6%; margin-right:6%;">
+        <div class='col-md-4'>
+          <div class="field">
+            <p class='text-muted'>
+            <%= f.label :rate_value %>* <br>
+            <%= f.text_field :rate_value %>
+          </p>
+          </div>
+        </div>
+        <div class='col-md-4'>
+          <div class="field">
+            <p class='text-muted'>
+            <%= f.label :país %><br>
+            <%= f.collection_select(:country_id, Country.all, :id, :name) %>
+          </p>
+          </div>
+        </div>
+        <div class='col-md-4'>
+          <div class="field">
+            <p class='text-muted'>
+            <%= f.label :índice %><br>
+            <%= f.collection_select(:development_rate_id, DevelopmentRate.all, :id, :name) %>
+          </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+        <div class='row'>
+          <center>
+          <div class="field">
+            <% f.date_select :date_registered,:default => Time.now %>
+          </div>
+          <div class="actions">
+            <%= f.submit %>
+          </div>
+        </center>
+        </div>
+<% end %>

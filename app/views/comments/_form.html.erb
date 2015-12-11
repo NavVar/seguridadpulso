@@ -1,0 +1,10 @@
+<%= form_for(@comment) do |f| %>
+<div class="field">
+    <%= f.label :Comentario %><br>
+    <%= f.text_area :content , :size => "150x9"  %>
+  </div>
+  <%= f.hidden_field :article_id %>
+  <div class="actions">
+    <%= f.submit 'Guardar', :class => 'btn btn-sm btn-success'%>
+  </div>
+<% end %>

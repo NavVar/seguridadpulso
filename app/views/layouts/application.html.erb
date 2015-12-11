@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+<title>Pulso Economico</title>
+	 <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => false %>
+	<%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
+  <%= csrf_meta_tags %>
+	<%= favicon_link_tag 'logo.png' %>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="http://www.highcharts.com/js/highstock.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
+
+</head>
+<body  style='background-color: #EDF8FF; margin-top:75px;' >
+
+<% if user_signed_in? %>
+	<% if current_user.has_role? :admin%>
+		<nav class="navbar navbar-custom navbar-fixed-top">
+		      <div class="container">
+		        <div class="navbar-header">
+		          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+		            <span class="sr-only">Toggle navigation</span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		          </button>
+		          <a class="navbar-brand" href="/"><p>Pulso Economico</p></a>
+		        </div>
+		        <div id="navbar" class="navbar-collapse collapse">
+		          <ul class="nav navbar-nav">
+		            <li class="dropdown">
+		              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" in_tag="ul" kaspersky_status="skipped">Artículos <span class="label label-default"><%=Article.where(suggested:true, confirmed:false).count%></span> <span class="caret"></span></a>
+		              <ul class="dropdown-menu">
+		                <li><a href="/new_article" in_tag="ul" kaspersky_status="skipped">Crear Artículo</a></li>
+		                <li><a href="/articles" in_tag="ul" kaspersky_status="skipped">Buscar Artículo</a></li>
+		                <li><a href="/articles/suggested" in_tag="ul" kaspersky_status="skipped">Artículos sugeridos <span class="label label-default"><%=Article.where(suggested:true, confirmed:false).count%></span></a></li>
+										<li role="separator" class="divider"></li>
+		                <li class="dropdown-header">Categorías</li>
+		                  <li><a href="/topics/new">Crear categoría</a></li>
+											<li><a href="/topics">Buscar categorías</a></li>
+		              </ul>
+		            </li>
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" in_tag="ul" kaspersky_status="skipped">Compañías <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a href="/companies/new" in_tag="ul" kaspersky_status="skipped">Crear Compañía</a></li>
+										<li><a href="/companies" in_tag="ul" kaspersky_status="skipped">Buscar Compañía</a></li>
+									</ul>
+								</li>
+		              <li class="dropdown">
+		              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" in_tag="ul" kaspersky_status="skipped">Cotizaciones <span class="caret"></span></a>
+		              <ul class="dropdown-menu">
+		                <li><%= link_to 'Crear Cotización', new_exchange_path %></li>
+		                <li><%= link_to 'Ver Cotizaciones', exchanges_path %></li>
+		              </ul>
+		            </li>
+							</li>
+								<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" in_tag="ul" kaspersky_status="skipped">Comparaciones <span class="caret"></span></a>
+								<ul class="dropdown-menu">
+		                  <!--li role="separator" class="divider"></li-->
+											<li><a href="/development_rates/new" in_tag="ul" kaspersky_status="skipped">Crear Índice</a></li>
+											<li><a href="/rate_registers/new" in_tag="ul" kaspersky_status="skipped">Actualizar Índice</a></li>
+											<li><a href="/development_rates" in_tag="ul" kaspersky_status="skipped">Buscar Índice</a></li>
+											<li role="separator" class="divider"></li>
+											<li class="dropdown-header">Países</li>
+		                  <li><a href="/countries/new">Crear país</a></li>
+											<li><a href="/countries">Buscar país</a></li>
+		                </ul>
+							</li>
+							<li><a href="/users/all">Usuarios</a></li>
+							<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" in_tag="ul" kaspersky_status="skipped">Acerca de nosotros <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+										<!--li role="separator" class="divider"></li-->
+										<li><a href="/about_us" in_tag="ul" kaspersky_status="skipped">Quiénes somos</a></li>
+										<li><a href="/contact_us" in_tag="ul" kaspersky_status="skipped">Contáctanos</a></li>
+									</ul>
+						</li>
+		          </ul>
+							<ul class="nav navbar-nav navbar-right">
+										<li><a href="/users/show" ><i class="fa fa-user fa-fw"> </i><%=current_user.name%></a></li>
+										<li><p class="navbar-btn"><%= link_to('Cerrar sesión', destroy_user_session_path, :method => :delete, :class =>'btn btn-sm btn-danger')%></p></li>
+									<!--li> <img src='/assets/logo.png' class='img-circle' height="50"></li-->
+							</ul>
+		        </div><!--/.nav-collapse -->
+		      </div>
+		    </nav>
+
+		<div class="container">
+
+
+		<%=yield%>
+
+		<br><br>
+
+		</div>
+
+		<footer id="ac-globalfooter" class="js no-touch svg no-ie7 no-ie8" lang="en-US" data-analytics-region="global footer" role="contentinfo" aria-labelledby="ac-gf-label">
+				<div class="ac-gf-content">
+
+					<nav class="ac-gf-directory with-5-columns" role="navigation">
+			<!--googleoff: all-->
+			<div class="ac-gf-directory-column">
+
+				<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-storeservices">
+				<div class="ac-gf-directory-column-section">
+					<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-storeservices">
+						<h3 class="ac-gf-directory-column-section-title">Fundación Hecho en Bolivia</h3> </label>
+					<ul class="ac-gf-directory-column-section-list">
+						<li class="ac-gf-directory-column-section-item">
+								Calle Jordán # 522 Esq.<br>
+								San Martín Edif. Comboni,<br>
+								Center 5 Piso Of 505<br><br>
+							</li>
+						<li class="ac-gf-directory-column-section-item">
+							<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-storeservices">
+								<h3 class="ac-gf-directory-column-section-title">Información:</h3> </label>
+							info@fundacionhechoenbolivia.org<br><br>
+						</li>
+						<img src="/assets/logo.png" width="55%">
+					</ul>
+				</div>
+			</div>
+			<div class="ac-gf-directory-column">
+
+				<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-storeservices">
+				<div class="ac-gf-directory-column-section">
+					<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-storeservices">
+						<h3 class="ac-gf-directory-column-section-title">Compañías</h3> </label>
+					<ul class="ac-gf-directory-column-section-list">
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/companies/new">Crear Compañía</a></li>
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/companies">Buscar Compañía</a></li>
+
+					</ul>
+				</div>
+				<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-education">
+				<div class="ac-gf-directory-column-section">
+					<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-education">
+						<h3 class="ac-gf-directory-column-section-title">Cotizaciones</h3> </label>
+						<ul class="ac-gf-directory-column-section-list">
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/exchanges/new">Crear Cotización</a></li>
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/exchanges">Buscar Cotización</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="ac-gf-directory-column">
+				<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-products">
+				<div class="ac-gf-directory-column-section">
+					<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-products">
+						<h3 class="ac-gf-directory-column-section-title">Artículos</h3> </label>
+					<ul class="ac-gf-directory-column-section-list">
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/articles/new">Crear Artículo</a></li>
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/articles">Buscar Artículo</a></li>
+						<li role="separator" class="divider"></li>
+					</ul>
+				</div>
+						<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-responsibility">
+						<div class="ac-gf-directory-column-section">
+							<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-responsibility">
+								<i><h3 class="ac-gf-directory-column-section-title">Categorías</h3></i> </label>
+							<ul class="ac-gf-directory-column-section-list">
+								<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/topics/new"><i>Crear Categoría</i></a></li>
+								<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/topics"><i>Buscar Categorías</i></a></li>
+							</ul>
+						</div>			</div>
+			<div class="ac-gf-directory-column">
+				<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-accounts">
+				<div class="ac-gf-directory-column-section">
+					<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-accounts">
+						<h3 class="ac-gf-directory-column-section-title">Comparaciones</h3> </label>
+					<ul class="ac-gf-directory-column-section-list">
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/development_rates/new">Crear Índice</a></li>
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/rate_registers/new">Actualizar Índice</a></li>
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/development_rates">Buscar Índice</a></li>
+					</ul>
+				</div>
+				<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-responsibility">
+				<div class="ac-gf-directory-column-section">
+					<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-responsibility">
+						<i><h3 class="ac-gf-directory-column-section-title">Países</h3></i> </label>
+					<ul class="ac-gf-directory-column-section-list">
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/countries/new"><i>Crear País</i></a></li>
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/countries"><i>Buscar País</i></a></li>
+					</ul>
+				</div>
+
+			</div>
+			<div class="ac-gf-directory-column">
+				<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-about">
+				<div class="ac-gf-directory-column-section">
+					<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-about">
+						<h3 class="ac-gf-directory-column-section-title">Sobre nosotros</h3> </label>
+					<ul class="ac-gf-directory-column-section-list">
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/about_us">Quiénes somos</a></li>
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/contact_us">Contáctanos</a></li>
+					</ul>
+				</div>
+				
+			</div>
+			<!--googleon: all-->
+		</nav>
+
+		<section class="ac-gf-footer" vocab="http://schema.org/" typeof="Organization">
+			<div class="ac-gf-footer-legal">
+				<div class="ac-gf-footer-legal-copyright">Copyright © 2015 Fundación Hecho en Bolivia. Todos los derechos reservados.</div>
+			</div>
+
+		<script type="text/javascript" src="/ac/globalfooter/2.0/en_US/scripts/ac-globalfooter.built.js"></script>
+
+				</div>
+
+			</footer>
+			<footer id="ac-globalfooter" class="js no-touch svg no-ie7 no-ie8" lang="en-US" data-analytics-region="global footer" role="contentinfo" aria-labelledby="ac-gf-label" style="background-color:#000;">
+				<div class="ac-gf-content">
+
+				<section class="ac-gf-footer" vocab="http://schema.org/" typeof="Organization">
+
+				<div class="ac-gf-footer-legal">
+					<div class="ac-gf-footer-legal-copyright">Apoyados por:
+						<% Company.all.order('name').each do |company| %>
+							<%if company.image_file_name==nil%>
+								 							<%else%>
+								<%= link_to image_tag(company.image.url(), width:'35px'), company %>&nbsp;&nbsp;
+							<%end%>
+						<%end%>
+
+					</div>
+					<!--div class="ac-gf-footer-legal-links"> <a class="ac-gf-footer-legal-link" href="/privacy/privacy-policy/">Privacy Policy</a> <a class="ac-gf-footer-legal-link" href="/legal/internet-services/terms/site.html">Terms of Use</a> <a class="ac-gf-footer-legal-link" href="/us/shop/goto/shipping_and_returns">Sales and Refunds</a> <a class="ac-gf-footer-legal-link" href="/sitemap/">Site Map</a> </div-->
+				</div>
+			</div>
+			</footer>
+
+	<%else%>
+		<nav class="navbar navbar-custom navbar-fixed-top">
+		      <div class="container">
+		        <div class="navbar-header">
+		          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+		            <span class="sr-only">Toggle navigation</span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		          </button>
+		          <a class="navbar-brand" href="/"><p>Pulso Economico</p></a>
+		        </div>
+		        <div id="navbar" class="navbar-collapse collapse">
+		          <ul class="nav navbar-nav">
+								<li class="dropdown">
+		              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" in_tag="ul" kaspersky_status="skipped">Artículos <span class="caret"></span></a>
+		              <ul class="dropdown-menu">
+		                <li><a href="/new_article" in_tag="ul" kaspersky_status="skipped">Sugerir Artículo</a></li>
+		                <li><a href="/articles" in_tag="ul" kaspersky_status="skipped">Buscar Artículo</a></li>
+										<li role="separator" class="divider"></li>
+		                <li class="dropdown-header">Categorías</li>
+											<li><a href="/topics">Buscar categorías</a></li>
+									</ul>
+		            </li>
+								<li><a href="/companies" in_tag="ul" kaspersky_status="skipped">Compañías</a></li>
+								<li><a href="/exchanges" in_tag="ul" kaspersky_status="skipped">Cotizaciones</a></li>
+								<li><a href="/development_rates" in_tag="ul" kaspersky_status="skipped">Comparaciones</a></li>
+								<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" in_tag="ul" kaspersky_status="skipped">Acerca de nosotros <span class="caret"></span></a>
+								<ul class="dropdown-menu">
+											<!--li role="separator" class="divider"></li-->
+											<li><a href="/about_us" in_tag="ul" kaspersky_status="skipped">Quiénes somos</a></li>
+											<li><a href="/contact_us" in_tag="ul" kaspersky_status="skipped">Contáctanos</a></li>
+										</ul>
+								</li>
+		          </ul>
+							<ul class="nav navbar-nav navbar-right">
+										<li><a href="/users/show" ><i class="fa fa-user fa-fw"> </i><%=current_user.name%></a></li>
+										<li><p class="navbar-btn"><%= link_to('Cerrar sesión', destroy_user_session_path, :method => :delete, :class =>'btn btn-sm btn-danger')%></p></li>
+
+									<!--li> <img src='/assets/logo.png' class='img-circle' height="50"></li-->
+							</ul>
+		        </div><!--/.nav-collapse -->
+		      </div>
+		    </nav>
+
+		<div class="container">
+		<%=yield%>
+		<br><br>
+		</div>
+		<footer id="ac-globalfooter" class="js no-touch svg no-ie7 no-ie8" lang="en-US" data-analytics-region="global footer" role="contentinfo" aria-labelledby="ac-gf-label">
+				<div class="ac-gf-content">
+
+					<nav class="ac-gf-directory with-5-columns" role="navigation">
+			<!--googleoff: all-->
+			<div class="ac-gf-directory-column">
+				<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-storeservices">
+				<div class="ac-gf-directory-column-section">
+					<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-storeservices">
+						<h3 class="ac-gf-directory-column-section-title">Fundación Hecho en Bolivia</h3> </label>
+					<ul class="ac-gf-directory-column-section-list">
+						<li class="ac-gf-directory-column-section-item">
+								Calle Jordán # 522 Esq.<br>
+								San Martín Edif. Comboni,<br>
+								Center 5 Piso Of 505<br><br>
+							</li>
+						<li class="ac-gf-directory-column-section-item">
+							<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-storeservices">
+								<h3 class="ac-gf-directory-column-section-title">Información:</h3> </label>
+							info@fundacionhechoenbolivia.org<br><br>
+						</li>
+						<img src="/assets/logo.png" width="55%">
+					</ul>
+				</div>
+			</div>
+			<div class="ac-gf-directory-column">
+				<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-storeservices">
+				<div class="ac-gf-directory-column-section">
+					<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-storeservices">
+						<h3 class="ac-gf-directory-column-section-title">Compañías</h3> </label>
+					<ul class="ac-gf-directory-column-section-list">
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/companies">Buscar Compañía</a></li>
+
+					</ul>
+				</div>
+				<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-products">
+				<div class="ac-gf-directory-column-section">
+					<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-products">
+						<h3 class="ac-gf-directory-column-section-title">Artículos</h3> </label>
+					<ul class="ac-gf-directory-column-section-list">
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/articles/new">Sugerir Artículo</a></li>
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/articles">Buscar Artículo</a></li>
+					</ul>
+				</div>
+
+			</div>
+
+			<div class="ac-gf-directory-column">
+				<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-education">
+				<div class="ac-gf-directory-column-section">
+					<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-education">
+						<h3 class="ac-gf-directory-column-section-title">Cotizaciones</h3> </label>
+					<ul class="ac-gf-directory-column-section-list">
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/exchanges">Buscar Cotizaciones</a></li>
+					</ul>
+				</div>
+
+			</div>
+			<div class="ac-gf-directory-column">
+				<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-accounts">
+				<div class="ac-gf-directory-column-section">
+					<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-accounts">
+						<h3 class="ac-gf-directory-column-section-title">Comparaciones</h3> </label>
+					<ul class="ac-gf-directory-column-section-list">
+							<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/development_rates">Buscar Índice</a></li>
+					</ul>
+				</div>
+
+			</div>
+			<div class="ac-gf-directory-column">
+				<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-about">
+				<div class="ac-gf-directory-column-section">
+					<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-about">
+						<h3 class="ac-gf-directory-column-section-title">Sobre nosotros</h3> </label>
+					<ul class="ac-gf-directory-column-section-list">
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/about_us">Quiénes somos</a></li>
+						<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/contact_us">Contáctanos</a></li>
+					</ul>
+				</div>
+				
+			</div>
+			<!--googleon: all-->
+		</nav>
+
+		<section class="ac-gf-footer" vocab="http://schema.org/" typeof="Organization">
+					<div class="ac-gf-footer-legal">
+						<div class="ac-gf-footer-legal-copyright">Copyright © 2015 Fundación Hecho en Bolivia. Todos los derechos reservados.</div>
+					</div>
+				<script type="text/javascript" src="/ac/globalfooter/2.0/en_US/scripts/ac-globalfooter.built.js"></script>
+				</div>
+			</footer>
+			<footer id="ac-globalfooter" class="js no-touch svg no-ie7 no-ie8" lang="en-US" data-analytics-region="global footer" role="contentinfo" aria-labelledby="ac-gf-label" style="background-color:#000;">
+				<div class="ac-gf-content">
+				<section class="ac-gf-footer" vocab="http://schema.org/" typeof="Organization">
+
+				<div class="ac-gf-footer-legal">
+					<div class="ac-gf-footer-legal-copyright">Apoyados por:
+						<% Company.all.order('name').each do |company| %>
+							<%if company.image_file_name==nil%>
+								 							<%else%>
+								<%= link_to image_tag(company.image.url(), width:'35px'), company %>&nbsp;&nbsp;
+							<%end%>
+						<%end%>
+
+					</div>
+					<!--div class="ac-gf-footer-legal-links"> <a class="ac-gf-footer-legal-link" href="/privacy/privacy-policy/">Privacy Policy</a> <a class="ac-gf-footer-legal-link" href="/legal/internet-services/terms/site.html">Terms of Use</a> <a class="ac-gf-footer-legal-link" href="/us/shop/goto/shipping_and_returns">Sales and Refunds</a> <a class="ac-gf-footer-legal-link" href="/sitemap/">Site Map</a> </div-->
+				</div>
+			</div>
+			</footer>
+		<%end%>
+<%else%>
+	<nav class="navbar navbar-custom navbar-fixed-top">
+	      <div class="container">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="navbar-brand" href="/"><p>Pulso Economico</p></a>
+	        </div>
+	        <div id="navbar" class="navbar-collapse collapse">
+	          <ul class="nav navbar-nav">
+							<li class="dropdown">
+		              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" in_tag="ul" kaspersky_status="skipped">Artículos <span class="caret"></span></a>
+		              <ul class="dropdown-menu">
+		                <li><a href="/articles" in_tag="ul" kaspersky_status="skipped">Buscar Artículo</a></li>
+										<li role="separator" class="divider"></li>
+		                <li class="dropdown-header">Categorías</li>
+											<li><a href="/topics">Buscar categorías</a></li>
+									</ul>
+		            </li>
+							<li><a href="/companies" in_tag="ul" kaspersky_status="skipped">Compañías</a></li>
+							<li><a href="/exchanges" in_tag="ul" kaspersky_status="skipped">Cotizaciones</a></li>
+							<li><a href="/development_rates" in_tag="ul" kaspersky_status="skipped">Comparaciones</a></li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" in_tag="ul" kaspersky_status="skipped">Acerca de nosotros <span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<!--li role="separator" class="divider"></li-->
+									<li><a href="/about_us" in_tag="ul" kaspersky_status="skipped">Quiénes somos</a></li>
+									<li><a href="/contact_us" in_tag="ul" kaspersky_status="skipped">Contáctanos</a></li>
+								</ul>
+							</li>
+		        </ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="/users/sign_in" >Iniciar sesión</a></li>
+							<li>
+								<p class="navbar-btn">
+									<a href="/users/sign_up" class="btn btn-sm btn-default">Registrarse</a>
+								</p>
+							</li>
+								<!--li> <img src='/assets/logo.png' class='img-circle' height="50"></li-->
+						</ul>
+	        </div><!--/.nav-collapse -->
+	      </div>
+	</nav>
+	<div class="container">
+		<%=yield%>
+	</div>
+	<br><br>
+	<footer id="ac-globalfooter" class="js no-touch svg no-ie7 no-ie8" lang="en-US" data-analytics-region="global footer" role="contentinfo" aria-labelledby="ac-gf-label">
+		<div class="ac-gf-content">
+			<nav class="ac-gf-directory with-5-columns" role="navigation">
+					<!--googleoff: all-->
+					<div class="ac-gf-directory-column">
+						<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-storeservices">
+						<div class="ac-gf-directory-column-section">
+							<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-storeservices">
+								<h3 class="ac-gf-directory-column-section-title">Fundación Hecho en Bolivia</h3> </label>
+							<ul class="ac-gf-directory-column-section-list">
+								<li class="ac-gf-directory-column-section-item">
+										Calle Jordán # 522 Esq.<br>
+										San Martín Edif. Comboni,<br>
+										Center 5 Piso Of 505<br><br>
+									</li>
+								<li class="ac-gf-directory-column-section-item">
+									<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-storeservices">
+										<h3 class="ac-gf-directory-column-section-title">Información:</h3> </label>
+									info@fundacionhechoenbolivia.org<br><br>
+								</li>
+								<img src="/assets/logo.png" width="55%">
+							</ul>
+						</div>
+					</div>
+					<div class="ac-gf-directory-column">
+						<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-storeservices">
+						<div class="ac-gf-directory-column-section">
+							<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-storeservices">
+								<h3 class="ac-gf-directory-column-section-title">Compañías</h3> </label>
+							<ul class="ac-gf-directory-column-section-list">
+								<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/companies">Buscar Compañía</a></li>
+							</ul>
+						</div>
+						<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-products">
+						<div class="ac-gf-directory-column-section">
+							<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-products">
+								<h3 class="ac-gf-directory-column-section-title">Artículos</h3> </label>
+							<ul class="ac-gf-directory-column-section-list">
+								<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/articles">Buscar Artículo</a></li>
+							</ul>
+						</div>
+
+					</div>
+
+					<div class="ac-gf-directory-column">
+						<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-education">
+						<div class="ac-gf-directory-column-section">
+							<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-education">
+								<h3 class="ac-gf-directory-column-section-title">Cotizaciones</h3> </label>
+							<ul class="ac-gf-directory-column-section-list">
+								<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/exchanges">Buscar Cotizaciones</a></li>
+							</ul>
+						</div>
+
+					</div>
+					<div class="ac-gf-directory-column">
+						<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-accounts">
+						<div class="ac-gf-directory-column-section">
+							<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-accounts">
+								<h3 class="ac-gf-directory-column-section-title">Comparaciones</h3> </label>
+							<ul class="ac-gf-directory-column-section-list">
+								<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/development_rates">Buscar Índice</a></li>
+							</ul>
+						</div>
+
+					</div>
+					<div class="ac-gf-directory-column">
+						<input class="ac-gf-directory-column-section-state" type="checkbox" id="ac-gf-directory-column-section-state-about">
+						<div class="ac-gf-directory-column-section">
+							<label class="ac-gf-directory-column-section-label" for="ac-gf-directory-column-section-state-about">
+								<h3 class="ac-gf-directory-column-section-title">Sobre nosotros</h3> </label>
+							<ul class="ac-gf-directory-column-section-list">
+								<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/about_us">Quiénes somos</a></li>
+								<li class="ac-gf-directory-column-section-item"><a class="ac-gf-directory-column-section-link" href="/contact_us">Contáctanos</a></li>
+							</ul>
+						</div>
+
+					</div>
+					<!--googleon: all-->
+				</nav>
+
+				<section class="ac-gf-footer" vocab="http://schema.org/" typeof="Organization">
+					<div class="ac-gf-footer-legal">
+						<div class="ac-gf-footer-legal-copyright">Copyright © 2015 Fundación Hecho en Bolivia. Todos los derechos reservados.</div>
+					</div>
+
+				<script type="text/javascript" src="/ac/globalfooter/2.0/en_US/scripts/ac-globalfooter.built.js"></script>
+
+						</div>
+
+	</footer>
+					<footer id="ac-globalfooter" class="js no-touch svg no-ie7 no-ie8" lang="en-US" data-analytics-region="global footer" role="contentinfo" aria-labelledby="ac-gf-label" style="background-color:#000;">
+						<div class="ac-gf-content">
+
+						<section class="ac-gf-footer" vocab="http://schema.org/" typeof="Organization">
+
+						<div class="ac-gf-footer-legal">
+							<div class="ac-gf-footer-legal-copyright">
+								Apoyados por:
+								<% Company.all.order('name').each do |company| %>
+									<%if company.image_file_name==nil%>
+									<%else%>
+										<%= link_to image_tag(company.image.url(), width:'35px'), company %>&nbsp;&nbsp;
+									<%end%>
+								<%end%>
+							</div>
+							<!--div class="ac-gf-footer-legal-links"> <a class="ac-gf-footer-legal-link" href="/privacy/privacy-policy/">Privacy Policy</a> <a class="ac-gf-footer-legal-link" href="/legal/internet-services/terms/site.html">Terms of Use</a> <a class="ac-gf-footer-legal-link" href="/us/shop/goto/shipping_and_returns">Sales and Refunds</a> <a class="ac-gf-footer-legal-link" href="/sitemap/">Site Map</a> </div-->
+						</div>
+					</div>
+					</footer>
+
+<%end%>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+</body>
+</html>

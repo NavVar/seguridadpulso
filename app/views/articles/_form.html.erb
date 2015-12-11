@@ -1,0 +1,77 @@
+
+      <%= form_for(@article) do |f| %>
+        <% if @article.errors.any? %>
+        <div class="alert alert-danger" role="alert">
+
+          <div id="error_explanation">
+            <h4>¡Oops! Algo pasó mientras guardabamos la información:</h4>
+            <ul>
+            <% @article.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            </ul>
+          </div>
+        </div>
+        <% end %>
+<div class="row">
+  <div class='col-md-8'>
+  <div class="field">
+    <p class='text-muted'>
+    <%= f.label :Título %>*
+    <%= f.text_field :title, :size=>'90' %>
+  </p>
+  </div>
+  </div>
+  <div class='col-md-4'>
+    <%if current_user.has_role? :admin%>
+      <div class="field">
+        <p class='text-muted' align='center'>
+        <%= f.hidden_field :suggested, value:false %>
+        <span class="label label-default">Autorizado</span>
+        </p>
+      </div>
+    <%else%>
+      <div class="field">
+        <p class='text-muted' align='center'>
+        <%= f.hidden_field :suggested, value:true %>
+        <span class="label label-default"> Autorización pendiente</span>
+        </p>
+      </div>
+    <%end%>
+  </div>
+</div>
+  <div class="field">
+    <p class='text-muted'>
+    <%= f.label :Autor %>*
+    <%= f.text_field :author, :size=>'90' %>
+      </p>
+  </div>
+<div class="field">
+    <p class='text-muted'>
+
+  <%= f.label :categoria %>*
+     <%= f.collection_select(:topic_id, Topic.all, :id, :name, {:required => "required"}) %>
+
+ </p>
+  </div>
+
+  <div class="field">
+    <p class='text-muted'>
+    <%= f.label :Breve_Descripcion %>*<br>
+    <%= f.text_area :description , :size=>"150x7"  %>
+      </p>
+  </div>
+   <div class="field">
+    <p class='text-muted'>
+    <%= f.label :Contenido %>*<br>
+    <%= f.text_area :content , :size => "150x30"  %>
+      </p>
+  </div>
+<center>
+  <div class="actions">
+    <%= f.submit 'Guardar', :class => 'btn btn-sm btn-success'%>
+    <%= link_to 'Atrás', articles_path, :class => 'btn btn-sm btn-default'%>
+  </div>
+</center>
+
+<% end %>
