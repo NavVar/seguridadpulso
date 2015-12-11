@@ -9,6 +9,16 @@ class User < ActiveRecord::Base
   belongs_to :companygoer
   validates :name, :lastname, :address, presence: {message:'es requerido.'}
   validates_length_of :password, minimum: 10, too_short: 'Your password must be at least 10 letters.'
+  
+  validate :password_complexity
+
+  def password_complexity
+    if password.present? and not password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/)
+      errors.add :password, "must include at least one lowercase letter, one uppercase letter, and one digit"
+    end
+  end
+
+
   before_create :auto_role
   def auto_role
     #if self.email.split('@')[1] == 'hechoenbolivia.com'
