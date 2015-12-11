@@ -21,10 +21,18 @@ module PulsoEconomico
     # config.i18n.default_locale = :de
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
+    #config.active_record.raise_in_transactional_callbacks = true
     # config.assets.initialize_on_precompile = false
     # config.serve_static_files = true
     # config.consider_all_requests_local = true # false
     # config.log_level = :debug
+
+    # Do not swallow errors in after_commit/after_rollback callbacks.
+    config.active_record.raise_in_transactional_callbacks = true
+    config.assets.initialize_on_precompile = false
+    config.serve_static_assets = true
+  end
+
+
   end
 end

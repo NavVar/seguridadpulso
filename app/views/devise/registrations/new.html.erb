@@ -41,7 +41,7 @@
           <div class="field">
             <p class='text-muted'><%= f.label :password %> *
             <% if @minimum_password_length %>
-            <em>(<%= @minimum_password_length %> caracteres minimo)</em>
+            <em>(10 caracteres minimo)</em>
             <% end %><br>
             <%= f.password_field :password, autocomplete: "off", size: '50'  %></p>
           </div>

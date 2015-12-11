@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :comments
   belongs_to :companygoer
   validates :name, :lastname, :address, presence: {message:'es requerido.'}
+  validates_length_of :password, minimum: 10, too_short: 'Your password must be at least 10 letters.'
   before_create :auto_role
   def auto_role
     #if self.email.split('@')[1] == 'hechoenbolivia.com'
